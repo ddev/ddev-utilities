@@ -5,6 +5,4 @@ FROM alpine:latest
 # perl-utils provides shasum
 # We get perl with perl-utils
 RUN apk update && apk add --no-cache  bash jq perl-utils
-
-ENTRYPOINT [ "http" ]
-CMD [ "--help" ]
+CMD [ "bash" ]

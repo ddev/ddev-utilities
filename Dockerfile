@@ -4,5 +4,5 @@ FROM alpine:latest
 # base64 is already in alpine.
 # perl-utils provides shasum
 # We get perl with perl-utils
-RUN apk update && apk add --no-cache  bash curl jq perl-utils wget
+RUN apk update && apk add --no-cache bash curl jq perl-utils wget yq
 CMD [ "bash" ]

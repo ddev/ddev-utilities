@@ -6,10 +6,13 @@ This utility image is a lightweight set of consistent Linux utilities, especiall
 
 * base64
 * bash
+* curl
 * jq
 * shasum
+* wget
+* yq
 
-To push it to latest, ./push.sh
+To push it to latest, run `./push.sh`
 
 ## Instructions
 
@@ -19,9 +22,16 @@ Instead of using `ddev describe -j | jq -r` for example, use `ddev describe -j |
 
 ### base64
 
-Instead of running `base64 -d` which may behave differently on different systems, use 
+Instead of running `base64 -d` which may behave differently on different systems, use:
+
 ```bash
 echo "somebase64content" | docker run -i --rm ddev/ddev-utilities base64 -d
+```
+
+### curl
+
+```bash
+docker run -i --rm ddev/ddev-utilities curl -I https://ddev.com
 ```
 
 ### jq
@@ -38,6 +48,26 @@ Instead of running shasum directly (its behavior can vary radically from system 
 
 ```bash
 echo $RANDOM | docker run -i --rm ddev/ddev-utilities shasum -a 256
+```
+
+### wget
+
+```bash
+docker run -it --rm -v ./:/pwd -u $(id -u):$(id -g) -w /pwd ddev/ddev-utilities bash -c "wget -qO- https://github.com/ddev/ddev/releases/download/v1.23.4/ddev_shell_completion_scripts.v1.23.4.tar.gz | tar xz --strip-components=1"
+```
+
+### yq
+
+`yq` is used to modify YAML files. Example to add simple post-start hook to DDEV:
+
+```yaml
+hooks:
+    post-start:
+        - exec-host: ddev mailpit
+```
+
+```bash
+docker run -i --rm -v ./:/pwd -u $(id -u):$(id -g) -w /pwd ddev/ddev-utilities yq -I4 -i '.hooks."post-start"[0]."exec-host" = "ddev mailpit"' .ddev/config.yaml
 ```
 
 ### Building and pushing to Docker Hub
@@ -71,6 +101,3 @@ https://github.com/ddev/ddev-utilities/issues
 ## Documentation:
 
 https://github.com/ddev/ddev-utilities
-
-
-

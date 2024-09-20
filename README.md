@@ -72,7 +72,7 @@ docker run -i --rm -v ./:/pwd -u $(id -u):$(id -g) -w /pwd ddev/ddev-utilities y
 
 ### Building and pushing to Docker Hub
 
-See [Use push.sh here](push.sh)
+See [Use push.sh here](https://github.com/ddev/ddev-utilities/blob/main/push.sh)
 
 ### Running
 To run the container by itself:

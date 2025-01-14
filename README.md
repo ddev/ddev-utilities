@@ -8,6 +8,7 @@ This utility image is a lightweight set of consistent Linux utilities, especiall
 * bash
 * curl
 * jq
+* sed
 * shasum
 * wget
 * yq
@@ -19,6 +20,8 @@ To push it to latest, run `./push.sh`
 This is most useful when something like a DDEV add-on cannot count on a utility like shasum or jq to be on the host side (or be a predictable version).
 
 Instead of using `ddev describe -j | jq -r` for example, use `ddev describe -j | docker run -t ddev/ddev-utilities jq -r`
+
+Classic utilities that are often different and unreliable on macOS include `base64` and `sed`
 
 ### base64
 
@@ -41,6 +44,12 @@ docker run -i --rm ddev/ddev-utilities curl -I https://ddev.com
 ```bash
 ddev describe -j | docker run -i --rm ddev/ddev-utilities jq -r .raw
 ```
+
+### sed
+
+`sed` often behaves differently in BSD-derived systems like `macOS`, so you can use it predictably like this:
+
+ddev list -j | docker run -i --rm ddev/ddev-utilities bash -c "jq -r .raw | sed 's/ddev\\.site/tld/g'"
 
 ### shasum
 
@@ -75,6 +84,7 @@ docker run -i --rm -v ./:/pwd -u $(id -u):$(id -g) -w /pwd ddev/ddev-utilities y
 See [Use push.sh here](https://github.com/ddev/ddev-utilities/blob/main/push.sh)
 
 ### Running
+
 To run the container by itself:
 
 ```bash
